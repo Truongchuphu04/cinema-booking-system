@@ -1,0 +1,188 @@
+{
+    "info": {
+        "name": "CineMax Cinema API",
+        "description": "API collection for CineMax Cinema Booking System",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Health Check",
+            "request": {
+                "method": "GET",
+                "url": "http://localhost:3000/api/health"
+            }
+        },
+        {
+            "name": "Movies",
+            "item": [
+                {
+                    "name": "Get All Movies",
+                    "request": {
+                        "method": "GET",
+                        "url": "http://localhost:3000/api/movies?page=1&limit=10"
+                    }
+                },
+                {
+                    "name": "Create Movie",
+                    "request": {
+                        "method": "POST",
+                        "url": "http://localhost:3000/api/movies",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Avengers: Endgame\",\n  \"overview\": \"The Avengers reassemble to defeat Thanos\",\n  \"poster\": \"https://example.com/poster.jpg\",\n  \"release_date\": \"2019-04-26\",\n  \"runtime\": 181,\n  \"genre\": \"Action, Adventure, Sci-Fi\",\n  \"rating\": 8.5,\n  \"adult\": false,\n  \"popularity\": 100\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Theaters",
+            "item": [
+                {
+                    "name": "Get All Theaters",
+                    "request": {
+                        "method": "GET",
+                        "url": "http://localhost:3000/api/theaters"
+                    }
+                },
+                {
+                    "name": "Create Theater",
+                    "request": {
+                        "method": "POST",
+                        "url": "http://localhost:3000/api/theaters",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"CineMax Hà Nội\",\n  \"location\": \"Tây Hồ, Hà Nội\",\n  \"city\": \"Hà Nội\",\n  \"address\": \"123 Đường Lạc Long Quân\",\n  \"rooms\": [\n    {\n      \"roomNumber\": \"A\",\n      \"seatCapacity\": 100,\n      \"seatTypes\": {\n        \"standard\": 80,\n        \"vip\": 15,\n        \"couple\": 5\n      }\n    }\n  ]\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Showtimes",
+            "item": [
+                {
+                    "name": "Get All Showtimes",
+                    "request": {
+                        "method": "GET",
+                        "url": "http://localhost:3000/api/showtimes"
+                    }
+                },
+                {
+                    "name": "Create Showtime",
+                    "request": {
+                        "method": "POST",
+                        "url": "http://localhost:3000/api/showtimes",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"movieId\": \"{{movieId}}\",\n  \"theaterId\": \"{{theaterId}}\",\n  \"roomId\": \"A\",\n  \"date\": \"2024-03-20\",\n  \"time\": \"19:00\",\n  \"basePrice\": 100,\n  \"seatTypes\": {\n    \"standard\": 100,\n    \"vip\": 150,\n    \"couple\": 200\n  }\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register",
+                    "request": {
+                        "method": "POST",
+                        "url": "http://localhost:3000/api/auth/register",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123!\",\n  \"fullName\": \"John Doe\",\n  \"phone\": \"0123456789\",\n  \"dob\": \"1990-01-01\",\n  \"gender\": \"male\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "url": "http://localhost:3000/api/auth/login",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123!\"\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Bookings",
+            "item": [
+                {
+                    "name": "Create Booking",
+                    "request": {
+                        "method": "POST",
+                        "url": "http://localhost:3000/api/bookings",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"showtimeId\": \"{{showtimeId}}\",\n  \"seats\": [\n    {\n      \"seatNumber\": \"A1\",\n      \"type\": \"standard\",\n      \"price\": 100\n    },\n    {\n      \"seatNumber\": \"A2\",\n      \"type\": \"standard\",\n      \"price\": 100\n    }\n  ],\n  \"paymentMethod\": \"card\",\n  \"customerInfo\": {\n    \"name\": \"John Doe\",\n    \"email\": \"user@example.com\",\n    \"phone\": \"0123456789\"\n  }\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get My Bookings",
+                    "request": {
+                        "method": "GET",
+                        "url": "http://localhost:3000/api/bookings/my-bookings",
+                        "header": [
+                            {
+                                "key": "Authorization",\n                "value": "Bearer {{token}}"\n
+                            }\n
+                        ]\n
+                    }\n
+                },\n        {\n          \"name\": \"Get Occupied Seats\",\n          \"request\": {\n            \"method\": \"GET\",\n            \"url\": \"http://localhost:3000/api/bookings/occupied-seats/{{showtimeId}}\"\n          }\n        },\n        {\n          \"name\": \"Cancel Booking\",\n          \"request\": {\n            \"method\": \"PUT\",\n            \"url\": \"http://localhost:3000/api/bookings/{{bookingId}}/cancel\",\n            \"header\": [\n              {\n                \"key\": \"Authorization\",\n                \"value\": \"Bearer {{token}}\"\n              }\n            ]\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"Users\",\n      \"item\": [\n        {\n          \"name\": \"Get Profile\",\n          \"request\": {\n            \"method\": \"GET\",\n            \"url\": \"http://localhost:3000/api/users/profile\",\n            \"header\": [\n              {\n                \"key\": \"Authorization\",\n                \"value\": \"Bearer {{token}}\"\n              }\n            ]\n          }\n        },\n        {\n          \"name\": \"Update Profile\",\n          \"request\": {\n            \"method\": \"PUT\",\n            \"url\": \"http://localhost:3000/api/users/profile\",\n            \"header\": [\n              {\n                \"key\": \"Authorization\",\n                \"value\": \"Bearer {{token}}\"\n              },\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\n  \\\"fullName\\\": \\\"Jane Doe\\\",\n  \\\"phone\\\": \\\"0987654321\\\",\n  \\\"dob\\\": \\\"1990-01-01\\\"\n}\"\n            }\n          }\n        },\n        {\n          \"name\": \"Change Password\",\n          \"request\": {\n            \"method\": \"PUT\",\n            \"url\": \"http://localhost:3000/api/users/change-password\",\n            \"header\": [\n              {\n                \"key\": \"Authorization\",\n                \"value\": \"Bearer {{token}}\"\n              },\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\n  \\\"oldPassword\\\": \\\"OldPassword123!\\\",\n  \\\"newPassword\\\": \\\"NewPassword123!\\\"\n}\"\n            }\n          }\n        }\n      ]\n    }\n  ]\n}\n

@@ -1,0 +1,5 @@
+<svg width="300" height="450" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="450" fill="#1a1a1a"/>
+  <text x="150" y="220" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" text-anchor="middle">Không có poster</text>
+  <text x="150" y="240" font-family="Arial, sans-serif" font-size="12" fill="#888888" text-anchor="middle">No Poster Available</text>
+</svg>
