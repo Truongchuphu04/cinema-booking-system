@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 require('dotenv').config();
 
 const connectDB = require('./config/database');
@@ -20,6 +21,9 @@ const app = express();
 
 // Connect to database
 connectDB();
+
+// Serve static files from public folder
+app.use(express.static(path.join(__dirname, '../..public')));
 
 // Clean up old indexes after database connection
 setTimeout(async () => {

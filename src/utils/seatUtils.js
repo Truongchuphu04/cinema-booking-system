@@ -8,7 +8,7 @@ export const calculateSeatConfig = (totalSeats = 120) => {
   // Tính số hàng cần thiết (giả sử 14 ghế/hàng)
   const seatsPerRow = 14;
   const totalRows = Math.ceil(totalSeats / seatsPerRow);
-  
+
   const regularRows = Math.ceil(regularCount / seatsPerRow);
   const vipRows = Math.ceil(vipCount / seatsPerRow);
   const coupleRows = totalRows - regularRows - vipRows;
@@ -43,7 +43,7 @@ export const SEAT_CONFIG = calculateSeatConfig(120);
 
 export const getSeatPrice = (row, basePrice = 100000, config = SEAT_CONFIG) => {
   if (config.vipRows.includes(row)) return basePrice * 1.5;
-  if (config.coupleRows.includes(row)) return basePrice * 2.0;
+  if (config.coupleRows.includes(row)) return 500000; // Ghế đôi cố định 500k
   return basePrice;
 };
 
@@ -76,9 +76,9 @@ export const formatDate = (date) => {
   });
 };
 
-export const calculateTotal = (selectedSeats, basePrice = 100000) => {
+export const calculateTotal = (selectedSeats, basePrice = 100000, config = SEAT_CONFIG) => {
   return selectedSeats.reduce((total, seatId) => {
     const row = seatId.charAt(0);
-    return total + getSeatPrice(row, basePrice);
+    return total + getSeatPrice(row, basePrice, config);
   }, 0);
 };

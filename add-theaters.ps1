@@ -1,5 +1,3 @@
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 $API_URL = "http://localhost:3000/api"
 
 Write-Host "Logging in..." -ForegroundColor Green
@@ -30,62 +28,84 @@ $theaters = @(
         email = "hanoi@cinemax.vn"
         facilities = @("IMAX", "Dolby Atmos", "Parking", "Cafe")
         status = "active"
+        rooms = @(
+            @{ name = "Room 1"; capacity = 100; type = "2D"; status = "active" }
+            @{ name = "Room 2"; capacity = 80; type = "3D"; status = "active" }
+            @{ name = "Room IMAX"; capacity = 120; type = "IMAX"; status = "active" }
+        )
     },
     @{
-        name = "Galaxy HCMC - Nguyen Hue"
+        name = "CineMax HCMC - Nguyen Hue"
         location = @{
             city = "HCMC"
             district = "District 1"
-            address = "Floor 8, Galaxy Tower, 456 Nguyen Hue Boulevard"
+            address = "Floor 8, CineMax Tower, 456 Nguyen Hue Boulevard"
         }
-        address = "Floor 8, Galaxy Tower, 456 Nguyen Hue Boulevard, Ben Nghe Ward, District 1, HCMC"
+        address = "Floor 8, CineMax Tower, 456 Nguyen Hue Boulevard, Ben Nghe Ward, District 1, HCMC"
         capacity = 370
         phone = "028-2345-6789"
-        email = "hcm@galaxy.vn"
+        email = "hcm.nguyenhue@cinemax.vn"
         facilities = @("4DX", "Dolby Atmos", "VIP Lounge", "Parking", "Restaurant")
         status = "active"
+        rooms = @(
+            @{ name = "Room 1"; capacity = 100; type = "2D"; status = "active" }
+            @{ name = "Room 2"; capacity = 90; type = "3D"; status = "active" }
+            @{ name = "Room 4DX"; capacity = 60; type = "4DX"; status = "active" }
+            @{ name = "Room VIP"; capacity = 40; type = "2D"; status = "active" }
+        )
     },
     @{
-        name = "CineStar Da Nang - Han Market"
+        name = "CineMax Da Nang - Han Market"
         location = @{
             city = "Da Nang"
             district = "Hai Chau"
-            address = "Floor 5, Han Market, 789 Tran Hung Dao Street"
+            address = "Floor 5, CineMax Center, 789 Tran Hung Dao Street"
         }
-        address = "Floor 5, Han Market, 789 Tran Hung Dao Street, Thach Thang Ward, Hai Chau District, Da Nang"
+        address = "Floor 5, CineMax Center, 789 Tran Hung Dao Street, Thach Thang Ward, Hai Chau District, Da Nang"
         capacity = 180
         phone = "0236-1234-5678"
-        email = "danang@cinestar.vn"
+        email = "danang@cinemax.vn"
         facilities = @("Standard", "Parking", "Cafe")
         status = "active"
+        rooms = @(
+            @{ name = "Room 1"; capacity = 100; type = "2D"; status = "active" }
+            @{ name = "Room 2"; capacity = 80; type = "2D"; status = "active" }
+        )
     },
     @{
-        name = "Platinum Cinema Can Tho"
+        name = "CineMax Can Tho"
         location = @{
             city = "Can Tho"
             district = "Ninh Kieu"
-            address = "Floor 6, Platinum Center, 321 Hai Ba Trung Street"
+            address = "Floor 6, CineMax Center, 321 Hai Ba Trung Street"
         }
-        address = "Floor 6, Platinum Center, 321 Hai Ba Trung Street, An Khanh Ward, Ninh Kieu District, Can Tho"
+        address = "Floor 6, CineMax Center, 321 Hai Ba Trung Street, An Khanh Ward, Ninh Kieu District, Can Tho"
         capacity = 185
         phone = "0292-1234-5678"
-        email = "cantho@platinum.vn"
+        email = "cantho@cinemax.vn"
         facilities = @("Standard", "Parking", "Cafe")
         status = "active"
+        rooms = @(
+            @{ name = "Room 1"; capacity = 100; type = "2D"; status = "active" }
+            @{ name = "Room 2"; capacity = 85; type = "2D"; status = "active" }
+        )
     },
     @{
-        name = "Lotte Cinema Hai Phong"
+        name = "CineMax Hai Phong"
         location = @{
             city = "Hai Phong"
             district = "Ngo Quyen"
-            address = "Floor 7, Lotte Center, 654 Minh Khai Street"
+            address = "Floor 7, CineMax Center, 654 Minh Khai Street"
         }
-        address = "Floor 7, Lotte Center, 654 Minh Khai Street, Hong Bang Ward, Ngo Quyen District, Hai Phong"
+        address = "Floor 7, CineMax Center, 654 Minh Khai Street, Hong Bang Ward, Ngo Quyen District, Hai Phong"
         capacity = 100
         phone = "0225-1234-5678"
-        email = "haiphong@lotte.vn"
+        email = "haiphong@cinemax.vn"
         facilities = @("Standard", "Parking")
         status = "active"
+        rooms = @(
+            @{ name = "Room 1"; capacity = 100; type = "2D"; status = "active" }
+        )
     },
     @{
         name = "CineMax HCM - Binh Thanh"
@@ -100,6 +120,10 @@ $theaters = @(
         email = "binhthanh@cinemax.vn"
         facilities = @("Standard", "Parking", "Cafe")
         status = "active"
+        rooms = @(
+            @{ name = "Room 1"; capacity = 100; type = "2D"; status = "active" }
+            @{ name = "Room 2"; capacity = 100; type = "3D"; status = "active" }
+        )
     }
 )
 

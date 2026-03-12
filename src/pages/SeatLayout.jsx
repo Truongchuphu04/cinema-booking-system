@@ -12,6 +12,7 @@ import ErrorScreen from '../components/SeatLayout/ErrorScreen';
 import SuccessScreen from '../components/SeatLayout/SuccessScreen';
 import ConfirmationStep from '../components/SeatLayout/ConfirmationStep';
 import PaymentStep from '../components/SeatLayout/PaymentStep';
+import { calculateSeatConfig, getSeatType, getSeatPrice } from '../utils/seatUtils';
 
 const SeatLayout = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const SeatLayout = () => {
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [bookingError, setBookingError] = useState(null);
   const [createdBooking, setCreatedBooking] = useState(null);
-  
+
   const {
     movie,
     showDetails,
@@ -56,6 +57,9 @@ const SeatLayout = () => {
     setBookingStep('confirm');
   };
 
+  // Sử dụng config từ showDetails
+  const seatConfig = calculateSeatConfig(showDetails?.totalSeats || 120);
+
   const handlePayment = async () => {
     if (!user) {
       navigate('/login');
@@ -69,9 +73,9 @@ const SeatLayout = () => {
       // Prepare booking data
       const seatData = selectedSeats.map(seatId => {
         const row = seatId.charAt(0);
-        const seatType = getSeatType(row);
-        const price = getSeatPrice(seatType, showDetails?.price || 100000);
-        
+        const seatType = getSeatType(row, seatConfig);
+        const price = getSeatPrice(row, showDetails?.price || 100000, seatConfig);
+
         return {
           seatNumber: seatId,
           type: seatType,
@@ -98,9 +102,9 @@ const SeatLayout = () => {
       // Create booking via API
       const newBooking = await addBooking(bookingData);
       setCreatedBooking(newBooking);
-      
+
       console.log('✅ Booking created successfully:', newBooking);
-      
+
       // Redirect to payment mockup page
       navigate(`/payment-mockup?bookingId=${newBooking._id}`);
 
@@ -109,24 +113,6 @@ const SeatLayout = () => {
       setBookingError(error.message || 'Có lỗi xảy ra khi đặt vé');
       setBookingStep('confirm');
     }
-  };
-
-  // Helper functions for seat pricing
-  const getSeatType = (row) => {
-    if (['A', 'B'].includes(row)) return 'standard';
-    if (['C', 'D', 'E', 'F'].includes(row)) return 'standard';
-    if (['G', 'H'].includes(row)) return 'vip';
-    if (['I', 'J'].includes(row)) return 'couple';
-    return 'standard';
-  };
-
-  const getSeatPrice = (seatType, basePrice = 100000) => {
-    const multipliers = {
-      standard: 1,
-      vip: 1.3,
-      couple: 1.5
-    };
-    return Math.round(basePrice * (multipliers[seatType] || 1));
   };
 
   const handlePaymentOld = () => {
@@ -157,7 +143,7 @@ const SeatLayout = () => {
   // Error state
   if (!movie || !showDetails) {
     return (
-      <ErrorScreen 
+      <ErrorScreen
         onBack={handleBackToMovies}
         onRetry={handleRetry}
       />
@@ -183,7 +169,7 @@ const SeatLayout = () => {
       <BlurCircle bottom="100px" right="0" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <BookingHeader 
+        <BookingHeader
           movie={movie}
           showDetails={showDetails}
           onBack={() => navigate(`/movies/${movie._id}`)}
@@ -212,7 +198,7 @@ const SeatLayout = () => {
                 />
               )}
               {(bookingStep === 'payment' || bookingStep === 'processing') && (
-                <PaymentStep 
+                <PaymentStep
                   paymentMethod={paymentMethod}
                   loading={bookingLoading}
                   step={bookingStep}

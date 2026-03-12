@@ -64,23 +64,30 @@ $theaters2 = $theatersData2.data
 Write-Host "Adding showtimes..." -ForegroundColor Green
 
 $addedCount = 0
-for ($i = 0; $i -lt $movies.Count -and $i -lt $theaters2.Count; $i++) {
-    if ($theaters2[$i].rooms -and $theaters2[$i].rooms.Count -gt 0) {
-        $showtime = @{
-            movieId = $movies[$i]._id
-            theaterId = $theaters2[$i]._id
-            roomId = $theaters2[$i].rooms[0]._id
-            date = "2026-03-1$($i+5)"
-            time = "19:00"
-            price = 100000
-            totalSeats = 100
-            availableSeats = 100
-        } | ConvertTo-Json
-        
-        $response = Invoke-WebRequest -Uri "$API_URL/showtimes" -Method POST -Headers $headers -Body $showtime -UseBasicParsing -ErrorAction SilentlyContinue
-        if ($response.StatusCode -eq 201) {
-            Write-Host "Added showtime for $($movies[$i].title)" -ForegroundColor Green
-            $addedCount++
+$times = @("09:00", "12:00", "15:00", "18:00", "21:00")
+$dates = @("2026-03-15", "2026-03-16", "2026-03-17", "2026-03-18", "2026-03-19")
+
+for ($d = 0; $d -lt $dates.Count; $d++) {
+    for ($i = 0; $i -lt $movies.Count -and $i -lt $theaters2.Count; $i++) {
+        if ($theaters2[$i].rooms -and $theaters2[$i].rooms.Count -gt 0) {
+            for ($t = 0; $t -lt $times.Count; $t++) {
+                $showtime = @{
+                    movieId = $movies[$i]._id
+                    theaterId = $theaters2[$i]._id
+                    roomId = $theaters2[$i].rooms[0]._id
+                    date = $dates[$d]
+                    time = $times[$t]
+                    price = 100000
+                    totalSeats = 100
+                    availableSeats = 100
+                } | ConvertTo-Json
+                
+                $response = Invoke-WebRequest -Uri "$API_URL/showtimes" -Method POST -Headers $headers -Body $showtime -UseBasicParsing -ErrorAction SilentlyContinue
+                if ($response.StatusCode -eq 201) {
+                    Write-Host "Added: $($movies[$i].title) - $($dates[$d]) $($times[$t])" -ForegroundColor Green
+                    $addedCount++
+                }
+            }
         }
     }
 }

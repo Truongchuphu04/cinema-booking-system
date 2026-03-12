@@ -1,15 +1,16 @@
 import React from 'react';
 import { Check, Download, Calendar, MapPin, Clock, Ticket, Star } from 'lucide-react';
-import { formatDate, formatPrice, calculateTotal, getSeatTypeLabel, getSeatPrice } from '../../utils/seatUtils';
+import { formatDate, formatPrice, calculateTotal, getSeatTypeLabel, getSeatPrice, calculateSeatConfig } from '../../utils/seatUtils';
 import { getPosterUrl } from '../../utils/imageUtils';
 
-const SuccessScreen = ({ 
-  movie, 
-  showDetails, 
-  selectedSeats, 
-  onBackToMovies 
+const SuccessScreen = ({
+  movie,
+  showDetails,
+  selectedSeats,
+  onBackToMovies
 }) => {
-  const total = calculateTotal(selectedSeats, showDetails?.price);
+  const seatConfig = calculateSeatConfig(showDetails?.totalSeats || 120);
+  const total = calculateTotal(selectedSeats, showDetails?.price, seatConfig);
   const bookingId = `CGV${Date.now().toString().slice(-6)}`;
 
   const downloadTicket = () => {
@@ -56,8 +57,8 @@ const SuccessScreen = ({
           {/* Ticket Header */}
           <div className="border-b border-gray-600 pb-6 mb-6">
             <div className="flex items-center gap-4 mb-4">
-              <img 
-                src={getPosterUrl(movie)} 
+              <img
+                src={getPosterUrl(movie)}
                 alt={movie.title}
                 className="w-16 h-24 object-cover rounded-lg shadow-lg"
                 onError={(e) => {
@@ -106,21 +107,21 @@ const SuccessScreen = ({
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-red-400 mt-1 flex-shrink-0" />
                 <div>
                   <p className="text-gray-400 text-sm">Rạp chiếu</p>
                   <p className="text-white font-medium">
-                    {typeof showDetails.cinema === 'string' 
-                      ? showDetails.cinema 
+                    {typeof showDetails.cinema === 'string'
+                      ? showDetails.cinema
                       : showDetails.theaterId?.name || showDetails.theater?.name || 'Cinema'
                     }
                   </p>
                   <p className="text-gray-300 text-sm">
-                    {typeof showDetails.room === 'string' 
-                      ? showDetails.room 
+                    {typeof showDetails.room === 'string'
+                      ? showDetails.room
                       : showDetails.roomId?.name || showDetails.room?.name || showDetails.roomId || 'Phòng chiếu'
                     }
                   </p>

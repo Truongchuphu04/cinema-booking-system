@@ -24,7 +24,7 @@ const PricingInfo = ({ basePrice = 100000 }) => {
       type: 'couple',
       icon: HeartIcon,
       label: 'Ghế đôi',
-      price: basePrice * 2,
+      price: 500000, // Giá cố định 500k
       bgColor: 'bg-pink-800/50',
       iconColor: 'text-pink-400'
     }

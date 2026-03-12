@@ -1,27 +1,28 @@
 import React from 'react';
-import { formatDate, formatPrice, calculateTotal, getSeatTypeLabel, getSeatPrice } from '../../utils/seatUtils';
+import { formatDate, formatPrice, calculateTotal, getSeatTypeLabel, getSeatPrice, calculateSeatConfig } from '../../utils/seatUtils';
 import { getPosterUrl } from '../../utils/imageUtils';
 import { Check, AlertCircle } from 'lucide-react';
 
-const ConfirmationStep = ({ 
-  movie, 
-  showDetails, 
-  selectedSeats 
+const ConfirmationStep = ({
+  movie,
+  showDetails,
+  selectedSeats
 }) => {
-  const total = calculateTotal(selectedSeats, showDetails?.price);
+  const seatConfig = calculateSeatConfig(showDetails?.totalSeats || 120);
+  const total = calculateTotal(selectedSeats, showDetails?.price, seatConfig);
 
   // Group seats by type for better display
   const seatsByType = selectedSeats.reduce((acc, seatId) => {
     const row = seatId.charAt(0);
-    const type = getSeatTypeLabel(row);
-    const price = getSeatPrice(row, showDetails?.price);
-    
+    const type = getSeatTypeLabel(row, seatConfig);
+    const price = getSeatPrice(row, showDetails?.price, seatConfig);
+
     if (!acc[type]) {
       acc[type] = { seats: [], price, count: 0 };
     }
     acc[type].seats.push(seatId);
     acc[type].count += 1;
-    
+
     return acc;
   }, {});
 
@@ -30,7 +31,7 @@ const ConfirmationStep = ({
       <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
         <Check className="w-8 h-8 text-blue-400" />
       </div>
-      
+
       <h3 className="text-2xl font-bold text-white mb-2">Xác nhận thông tin đặt vé</h3>
       <p className="text-gray-400 mb-8">Vui lòng kiểm tra lại thông tin trước khi thanh toán</p>
 
@@ -38,8 +39,8 @@ const ConfirmationStep = ({
         {/* Movie Info Card */}
         <div className="bg-gray-800/50 rounded-xl p-6 text-left">
           <div className="flex items-start gap-4 mb-4">
-            <img 
-              src={getPosterUrl(movie)} 
+            <img
+              src={getPosterUrl(movie)}
               alt={movie.title}
               className="w-16 h-24 object-cover rounded-lg"
               onError={(e) => {
@@ -81,8 +82,8 @@ const ConfirmationStep = ({
               <div className="flex justify-between">
                 <span className="text-gray-400">Rạp:</span>
                 <span className="text-white font-medium">
-                  {typeof showDetails.cinema === 'string' 
-                    ? showDetails.cinema 
+                  {typeof showDetails.cinema === 'string'
+                    ? showDetails.cinema
                     : showDetails.theaterId?.name || showDetails.theater?.name || 'Cinema'
                   }
                 </span>
@@ -90,8 +91,8 @@ const ConfirmationStep = ({
               <div className="flex justify-between">
                 <span className="text-gray-400">Phòng:</span>
                 <span className="text-white font-medium">
-                  {typeof showDetails.room === 'string' 
-                    ? showDetails.room 
+                  {typeof showDetails.room === 'string'
+                    ? showDetails.room
                     : showDetails.roomId?.name || showDetails.room?.name || showDetails.roomId || 'Phòng chiếu'
                   }
                 </span>

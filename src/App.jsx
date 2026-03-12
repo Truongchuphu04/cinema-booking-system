@@ -19,6 +19,7 @@ import Theaters from './pages/Theaters';
 import PaymentMockup from './pages/PaymentMockup';
 import BookingSuccess from './pages/BookingSuccess';
 import BookingFailed from './pages/BookingFailed';
+import TrailerPage from './pages/TrailerPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
 import { MovieProvider } from './contexts/MovieContext';
@@ -68,11 +69,12 @@ const AppContent = () => {
         <Route path='/' element={<Home />} />
         <Route path='/movies' element={<Movies />} />
         <Route path='/movies/:id' element={<MovieDetail />} />
+        <Route path='/movies/trailer/:id' element={<TrailerPage />} />
         <Route path="/movies/book/:movieId/:showId" element={
           <ProtectedRoute>
             <SeatLayout />
           </ProtectedRoute>
-        } />    
+        } />
         <Route path='/my-booking' element={
           <ProtectedRoute>
             <MyBooking />
@@ -95,11 +97,11 @@ const AppContent = () => {
         } />
         <Route path='/favorites' element={
           <ProtectedRoute>
-            <Favorites/>
+            <Favorites />
           </ProtectedRoute>
         } />
-        <Route path='/releases' element={<Releases/>} />
-        <Route path='/theaters' element={<Theaters/>} />
+        <Route path='/releases' element={<Releases />} />
+        <Route path='/theaters' element={<Theaters />} />
         <Route path='/payment-mockup' element={
           <ProtectedRoute>
             <PaymentMockup />
@@ -117,7 +119,7 @@ const AppContent = () => {
         } />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        
+
         {/* Admin Routes */}
         <Route path='/admin-login' element={<AdminLogin />} />
         <Route path='/admin' element={
